@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221105114816_ManyToManyAdded")]
+    [Migration("20221106060801_ManyToManyAdded")]
     partial class ManyToManyAdded
     {
         /// <inheritdoc />

@@ -5,7 +5,8 @@ using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
-public class CustomerService
+
+public class CustomerService : ICustomerService
 {
     private readonly DataContext _context;
     public CustomerService(DataContext context)
@@ -13,18 +14,18 @@ public class CustomerService
         _context = context;
     }
 
-    public async Task<AddCustomerDto> AddCustomer(AddCustomerDto CustomerDto)
+    public async Task<AddCustomerDto> AddCustomer(AddCustomerDto customerDto)
     {
         var customer = new Customer
         {
-            CustomerName = CustomerDto.CustomerName,
-            PhoneNumber = CustomerDto.PhoneNumber,
+            CustomerName = customerDto.CustomerName,
+            PhoneNumber = customerDto.PhoneNumber,
         };
 
         await _context.Customers.AddAsync(customer);
         await _context.SaveChangesAsync();
 
-        CustomerDto.Id = customer.Id;
+        customerDto.Id = customer.Id;
 
 
         var customerCreated = await GetCustomerById(customer.Id);
@@ -51,10 +52,10 @@ public class CustomerService
         var customers = await _context.Customers
             .Select(cu => new GetCustomerDto()
             {
-                                      Id = cu.Id,
-                                      CustomerName = cu.CustomerName,
-                                      PhoneNumber = cu.PhoneNumber,
-                                      Orders = 
+                Id = cu.Id,
+                CustomerName = cu.CustomerName,
+                PhoneNumber = cu.PhoneNumber,
+                Orders =
                                           (
                                               from or in _context.Orders
                                               join ins in _context.Installments on or.InstallmentId equals ins.Id

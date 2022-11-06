@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
-public class InstallmentService
+public class InstallmentService : IInstallmentService
 {
     private readonly DataContext _context;
     public InstallmentService(DataContext context)
@@ -62,48 +62,50 @@ public class InstallmentService
                 Percentage = ins.Percentage,
                 ProductName = pr.ProductName,
                 Orders =
-                                          (
-                                              from or in _context.Orders
-                                              where ins.Id == or.InstallmentId
-                                              select new GetOrderDto()
-                                              {
-                                                  Id = or.Id,
-                                                  InstallmentId = ins.Id,
-                                                  InstallmentName = ins.EndInstallment,
-                                              }
-                                              ).ToList()
+                         (
+                         from or in _context.Orders
+                         where ins.Id == or.InstallmentId
+                         select new GetOrderDto()
+                         {
+                             Id = or.Id,
+                             InstallmentId = ins.Id,
+                             EndInstallment = ins.EndInstallment,
+                         }
+                         ).ToList()
             }).ToListAsync();
         return installments;
     }
 
     public async Task<AddInstallmentDto> GetInstallmentById(int id)
     {
-        var Installment = await _context.Installments
-            .Select(cu => new AddInstallmentDto()
+        var installment = await _context.Installments
+            .Select(ins => new AddInstallmentDto()
             {
-                Id = cu.Id,
-                InstallmentName = cu.InstallmentName,
-                PhoneNumber = cu.PhoneNumber,
+                Id = ins.Id,
+                EndInstallment = ins.EndInstallment,
+                Percentage = ins.Percentage,
+                ProductId = ins.ProductId,
             }).FirstOrDefaultAsync(tu => tu.Id == id);
-        return Installment;
+        return installment;
     }
 
-    public async Task<AddInstallmentDto> UpdateInstallment(AddInstallmentDto InstallmentDto)
+    public async Task<AddInstallmentDto> UpdateInstallment(AddInstallmentDto installmentDto)
     {
 
-        var Installment = await _context.Installments.FirstOrDefaultAsync(pa => pa.Id == InstallmentDto.Id);
+        var installment = await _context.Installments.FirstOrDefaultAsync(pa => pa.Id == installmentDto.Id);
 
-        if (Installment == null)
+        if (installment == null)
         {
             return null;
         }
 
-        Installment.InstallmentName = InstallmentDto.InstallmentName;
-        Installment.PhoneNumber = InstallmentDto.PhoneNumber;
+        installment.EndInstallment = installmentDto.EndInstallment;
+        installment.Percentage = installmentDto.Percentage;
+        installment.ProductId = installmentDto.ProductId;
 
         await _context.SaveChangesAsync();
 
-        var InstallmentUpdated = await GetInstallmentById(Installment.Id);
-        return InstallmentUpdated;
+        var installmentUpdated = await GetInstallmentById(installment.Id);
+        return installmentUpdated;
     }
 }

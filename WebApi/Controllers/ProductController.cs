@@ -1,5 +1,6 @@
 ﻿using Domain.Dtos;
 using Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -15,6 +16,7 @@ public class ProductController : Controller
     }
 
     [HttpGet]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public async Task<List<GetProductDto>> GetProducts()
     {
         return await _productService.GetProducts();

@@ -13,3 +13,5 @@ D:\Soft-Club\SoftClub Exams\Siyovush Astonzoda MVC Exam 4\Infrastructure\obj\Deb
 D:\Soft-Club\SoftClub Exams\Siyovush Astonzoda MVC Exam 4\Infrastructure\obj\Debug\net6.0\refint\Infrastructure.dll
 D:\Soft-Club\SoftClub Exams\Siyovush Astonzoda MVC Exam 4\Infrastructure\obj\Debug\net6.0\Infrastructure.pdb
 D:\Soft-Club\SoftClub Exams\Siyovush Astonzoda MVC Exam 4\Infrastructure\obj\Debug\net6.0\ref\Infrastructure.dll
+d:\Soft-Club\SoftClub Exams\Siyovush Astonzoda MVC Exam 4\Infrastructure\bin\Debug\net6.0\Infrastructure.runtimeconfig.json
+d:\Soft-Club\SoftClub Exams\Siyovush Astonzoda MVC Exam 4\Infrastructure\obj\Debug\net6.0\Infrastructure.genruntimeconfig.cache
